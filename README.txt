@@ -1,0 +1,1 @@
+This project is part of the Udacity C++ program I am working through. The idea is to build a system monitor, something like htop, for a Linux machine. Because my normal development machine is a MacBook, I am working on this project in a VirtualBox Ubuntu Linux machine. That is why it is not a part of the rest of the projects directory for this program.
