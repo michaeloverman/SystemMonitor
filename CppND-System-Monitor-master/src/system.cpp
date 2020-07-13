@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <iostream> // TODO Delet when finished
 
 #include "process.h"
 #include "processor.h"
@@ -17,7 +18,14 @@ using std::vector;
 Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
-vector<Process>& System::Processes() { return processes_; }
+vector<Process>& System::Processes() {
+    vector<int> pids = LinuxParser::Pids();
+    for (int p : pids) {
+        Process proc(p);
+        processes_.push_back(proc);
+    }
+    return processes_;
+}
 
 std::string System::Kernel() {
     if (kernal_string_ == "") {

@@ -163,12 +163,14 @@ string LinuxParser::Uid(int pid) {
   string line, leader, uid;
   std::ostringstream path;
   path << kProcDirectory << pid << kStatusFilename;
+        // std::cout << "Path : " << path.str() << "\n";
   std::ifstream stream(path.str());
   if (stream.is_open()) {
     while (std::getline(stream, line)) {
+  // std::cout << "Found line: " << line << "\n";
       std::istringstream linestream(line);
       linestream >> leader;
-      if (leader == "uid:") {
+      if (leader == "Uid:") {
         linestream >> uid;
         return uid;
       }
@@ -180,15 +182,18 @@ string LinuxParser::Uid(int pid) {
 // TODO: Read and return the user associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::User(int pid) {
+  // std::cout << "Finding User for " << pid << "\n";
   string uid = Uid(pid);
   string line, user, x, value;
   std::ifstream stream(kPasswordPath);
   if (stream.is_open()) {
     while (std::getline(stream, line)) {
+      // std::cout << "Parsing " << line << "\n";
       std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
       linestream >> user >> x >> value;
-      if (value == uid) return value;
+      // std::cout << "uid: " << value << ", user: " << user << "\n";
+      if (value == uid) return user;
     }
   }
   return "FREAD";

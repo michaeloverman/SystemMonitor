@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iostream> // TODO remove
 
 #include "process.h"
 
@@ -12,9 +13,9 @@ using std::vector;
 
 Process::Process(int pid) {
     pid_ = pid;
-
     // Get User
-    user_ = LinuxParser::Uid(pid_);
+    user_ = LinuxParser::User(pid_);
+    // std::cout << pid_ << ":" << user_ << "/n";
 
     // Get Command
     command_ = LinuxParser::Command(pid_);
