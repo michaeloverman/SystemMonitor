@@ -13,7 +13,7 @@ string Format::ElapsedTime(long seconds) {
     int m = s / 60;
     s %= 60;
     char buffer[10];
-    sprintf(buffer, "%d:%02d:%02d", h, m, s);
+    sprintf(buffer, "%d:%02d:%02d", h, m, (int)s);
     string str = buffer;
     return str;
 }
