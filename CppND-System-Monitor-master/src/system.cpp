@@ -39,6 +39,4 @@ int System::RunningProcesses() { return LinuxParser::RunningProcesses(); }
 
 int System::TotalProcesses() { return LinuxParser::TotalProcesses(); }
 
-long int System::UpTime() {
-    return LinuxParser::UpTime();
-}
+long int System::UpTime() { return LinuxParser::UpTime(); }
