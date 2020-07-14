@@ -15,25 +15,33 @@ Process::Process(int pid) {
     pid_ = pid;
     // Get User
     user_ = LinuxParser::User(pid_);
-    // std::cout << pid_ << ":" << user_ << "/n";
 
     // Get Command
     command_ = LinuxParser::Command(pid_);
+    uptime_ = LinuxParser::UpTime(pid_);
 }
 
 int Process::Pid() { return pid_; }
 
-// TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return 0; }
+float Process::CpuUtilization() {
+    long prc = LinuxParser::ActiveJiffies(pid_);
+    vector<string> values = LinuxParser::CpuUtilization();
+    long active = stol(values[0]) + stol(values[1]) + stol(values[2]) + stol(values[5]) + stol(values[6]) + stol(values[7]);
+    cpu_use_ = (float)prc / active;
+    return cpu_use_;
+}
 
 string Process::Command() { return command_; }
 
-string Process::Ram() { return LinuxParser::Ram(pid_); }
+string Process::Ram() {
+    return LinuxParser::Ram(pid_);
+}
 
 string Process::User() { return user_; }
 
-long int Process::UpTime() { return LinuxParser::UpTime(pid_); }
+long int Process::UpTime() { return uptime_; }
 
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
+bool Process::operator<(Process const& a) const {
+    return cpu_use_ > a.cpu_use_;
+    // return true;
+}
