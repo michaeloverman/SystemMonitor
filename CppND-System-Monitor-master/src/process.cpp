@@ -18,7 +18,6 @@ Process::Process(int pid) {
 
     // Get Command
     command_ = LinuxParser::Command(pid_);
-    uptime_ = LinuxParser::UpTime(pid_);
 }
 
 int Process::Pid() { return pid_; }
@@ -39,7 +38,7 @@ string Process::Ram() {
 
 string Process::User() { return user_; }
 
-long int Process::UpTime() { return uptime_; }
+long int Process::UpTime() { return LinuxParser::UpTime(pid_); }
 
 bool Process::operator<(Process const& a) const {
     return cpu_use_ > a.cpu_use_;
